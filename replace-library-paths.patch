@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3be8346a..d91a89c0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -38,7 +38,7 @@ if (CMAKE_OSX_ARCHITECTURES MATCHES "x86_64")
+ endif()
+ 
+ set(OLLAMA_BUILD_DIR ${CMAKE_BINARY_DIR}/lib/ollama)
+-set(OLLAMA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/ollama/${OLLAMA_RUNNER_DIR})
++set(OLLAMA_INSTALL_DIR ${LIB_INSTALL_DIR}/ollama/${OLLAMA_RUNNER_DIR})
+ 
+ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY         ${OLLAMA_BUILD_DIR})
+ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${OLLAMA_BUILD_DIR})

@@ -1,0 +1,11 @@
+#!/bin/sh
+mock -r fedora-42-x86_64 --rebuild \
+    --enable-plugin ccache \
+    --no-clean \
+    --spec ollama-ggml-cuda.spec \
+    --sources . \
+    --resultdir results \
+    --addrepo https://developer.download.nvidia.com/compute/cuda/repos/fedora42/x86_64/ \
+    --addrepo https://developer.download.nvidia.com/compute/cuda/repos/fedora41/x86_64/ \
+    --with cuda_12 \
+    ${*}
