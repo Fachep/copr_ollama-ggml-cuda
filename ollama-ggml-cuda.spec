@@ -1,5 +1,9 @@
 %if 0%{?fedora} >= 42
+%ifarch aarch64
+%bcond cuda_13 0
+%else
 %bcond cuda_13 1
+%endif
 %bcond cuda_12 1
 %else
 %bcond cuda_13 0
