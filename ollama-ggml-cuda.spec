@@ -45,6 +45,8 @@ URL:            https://github.com/ollama/ollama
 Source0:        https://github.com/ollama/ollama/archive/refs/tags/v%{version}.tar.gz
 # https://forums.developer.nvidia.com/t/error-exception-specification-is-incompatible-for-cospi-sinpi-cospif-sinpif-with-glibc-2-41/323591
 Source1:        fix_math_functions.patch
+# https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=03c678f5daebb8c8004135334d18dc677a661a7b
+Source2:        nvidia-cuda-toolkit-glibc-2.42.patch
 Patch0:         remove-runtime-for-cuda-and-rocm.patch
 Patch1:         replace-library-paths.patch
 
@@ -102,12 +104,25 @@ chmod +x "%{_builddir}/cuda_%{1}.run"
 %endif
 
 %if 0%{?with_cuda_12:%{?fedora}} >= 42
-# Fix build with CUDA 12 on GLIBC 2.41+
 %if %{without download_cuda}
 cp -a "%{cuda_12_path}/" "%{_builddir}/cuda-12/"
 %global cuda_12_path %{_builddir}/cuda-12
 %endif
-patch -p1 -d "%{cuda_12_path}"/targets/*-linux/ < %{SOURCE1}
+# Fix building problem with CUDA 12 and GLIBC 2.41+
+patch -p1 -d "%{cuda_12_path}"/targets/*-linux/ < %{S:1}
+# Fix building problem with GLIBC 2.42+
+%if %{fedora} >= 43
+patch -p1 -d "%{cuda_12_path}"/targets/*-linux/ < %{S:2}
+%endif
+%endif
+
+%if 0%{?with_cuda_13:%{?fedora}} >= 43
+%if %{without download_cuda}
+cp -a "%{cuda_13_path}/" "%{_builddir}/cuda-13/"
+%global cuda_13_path %{_builddir}/cuda-13
+%endif
+# Fix building problem with GLIBC 2.42+
+patch -p1 -d "%{cuda_13_path}"/targets/*-linux/ < %{S:2}
 %endif
 
 %build
