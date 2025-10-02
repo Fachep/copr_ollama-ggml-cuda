@@ -22,11 +22,11 @@
 %global cuda_13_url https://developer.download.nvidia.com/compute/cuda/13.0.1/local_installers/cuda_13.0.1_580.82.07_linux%{?cuda_runfile_suffix}.run
 %global cuda_12_url https://developer.download.nvidia.com/compute/cuda/12.9.1/local_installers/cuda_12.9.1_575.57.08_linux%{?cuda_runfile_suffix}.run
 
-
 %define _vpath_builddir %{_vendor}-%{_target_os}-build_%{ggml_preset}
 %global ggml_privatelibs libggml-.*\\.so.*
+%global cuda_dependencies libcublas\\.so.*|libcudart\\.so.*|libcuda\\.so.*
 %global __provides_exclude_from ^(%{_libdir}/ollama/%{ggml_privatelibs})$
-%global __requires_exclude ^(%{ggml_privatelibs})$
+%global __requires_exclude ^(%{ggml_privatelibs}%{?_with_download_cuda:|%{cuda_dependencies}})$
 
 %global ggml_license ml/backend/ggml/ggml/LICENSE
 
