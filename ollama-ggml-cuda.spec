@@ -29,6 +29,7 @@
 %global __requires_exclude ^(%{ggml_privatelibs}%{?_with_download_cuda:|%{cuda_dependencies}})$
 
 %global ggml_license ml/backend/ggml/ggml/LICENSE
+%global llama_cpp_version b6646
 
 %global common_description %{expand:
 Get up and running with OpenAI gpt-oss, DeepSeek-R1, Gemma 3 and other models.}
@@ -36,7 +37,7 @@ Get up and running with OpenAI gpt-oss, DeepSeek-R1, Gemma 3 and other models.}
 ExclusiveArch:  x86_64 aarch64
 
 Name:           ollama-ggml-cuda
-Version:        0.12.3
+Version:        0.12.5
 Release:        %autorelease
 Summary:        GGML CUDA backend for ollama
 
@@ -165,6 +166,7 @@ patch -p1 -d "%{cuda_13_path}"/targets/*-linux/ < %{S:2}
 %package 13
 Summary:        GGML CUDA 13 backend for ollama
 Requires:       ollama-ggml%{?_isa} = %{version}
+Provides:       bundled(llama-cpp) = %{llama_cpp_version}
 Supplements:    ollama-ggml if libcublas-%{cuda_13_suffix}
 %description 13 %{common_description}
 This package contains the GGML CUDA 13 backend for ollama.
@@ -178,6 +180,7 @@ This package contains the GGML CUDA 13 backend for ollama.
 %package 12
 Summary:        GGML CUDA 12 backend for ollama
 Requires:       ollama-ggml%{?_isa} = %{version}
+Provides:       bundled(llama-cpp) = %{llama_cpp_version}
 Supplements:    ollama-ggml if libcublas-%{cuda_12_suffix}
 %description 12 %{common_description}
 This package contains the GGML CUDA 12 backend for ollama.
